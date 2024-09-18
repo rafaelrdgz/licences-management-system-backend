@@ -1,6 +1,8 @@
-import {response, Router} from "express";
+import { response, Router } from "express";
 import pool from "../DB_config.js";
 import multer from "multer";
+import * as fs from "node:fs";
+import * as path from "node:path";
 
 const router = Router();
 
@@ -9,34 +11,41 @@ const upload = multer({ storage });
 
 router.get("/center", async (req, res) => {
   try {
-    const result = await pool.query("SELECT * FROM get_centro_by_id('1')")
+    const result = await pool.query("SELECT * FROM get_centro_by_id()");
     if (result.rows.length > 0) {
       res.status(200).json(result.rows[0]);
     } else {
-      res.status(404).json({error: "Client not found"});
+      res.status(404).json({ error: "Client not found" });
     }
   } catch (err) {
-    res.status(400).json({error: err.message});
+    res.status(400).json({ error: err.message });
   }
 });
 
-router.put('/center', upload.single('logo'), async (req, res) => {
-  const {id} = "1";
+router.put('/center', async (req, res) => {
   const {
-    name, address, phone, directorName, humanResourcesName, accountantName, syndicateSecretaryName
+    code, name, address, phone, directorName, humanResourcesName, accountantName, syndicateSecretaryName
   } = req.body;
-  const logo = req.file ? req.file.buffer : null;
+  const { logo: newLogoPath, oldLogoPath } = req.body;
 
+  // Eliminar la imagen antigua si existe y es diferente a la nueva
+  if (oldLogoPath && oldLogoPath !== newLogoPath) {
+    const oldImagePath = path.join(__dirname, oldLogoPath);
+    if (fs.existsSync(oldImagePath)) {
+      fs.unlinkSync(oldImagePath);
+    }
+  }
+
+  // Procesa la actualización del centro en la BD con los nuevos datos.
   try {
     const query = `SELECT update_centro($1, $2, $3, $4, $5, $6, $7, $8, $9);`;
-    const values = [id, name, address, phone, directorName, humanResourcesName, accountantName, syndicateSecretaryName, logo];
+    const values = [code, name, address, phone, directorName, humanResourcesName, accountantName, syndicateSecretaryName, newLogoPath];
     const response = await pool.query(query, values);
-
-    res.json({message: 'Centro actualizado exitosamente'});
+    res.json({ message: 'Centro actualizado exitosamente', response:response });
   } catch (err) {
     console.error(err);
-    res.status(500).json({error: 'Error actualizando el centro'});
+    res.status(500).json({ error: 'Error actualizando el centro' });
   }
 });
 
-export default router
+export default router;

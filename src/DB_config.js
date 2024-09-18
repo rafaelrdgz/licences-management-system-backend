@@ -12,4 +12,6 @@ const pool = new Pool({
   port: process.env.DB_PORT,
   database: process.env.DB_NAME,
 });
+
+console.log(pool)
 export default pool;
