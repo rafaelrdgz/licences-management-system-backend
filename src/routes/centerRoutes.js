@@ -28,14 +28,6 @@ router.put('/center', async (req, res) => {
   } = req.body;
   const { logo: newLogoPath, oldLogoPath } = req.body;
 
-  // Eliminar la imagen antigua si existe y es diferente a la nueva
-  if (oldLogoPath && oldLogoPath !== newLogoPath) {
-    const oldImagePath = path.join(__dirname, oldLogoPath);
-    if (fs.existsSync(oldImagePath)) {
-      fs.unlinkSync(oldImagePath);
-    }
-  }
-
   // Procesa la actualización del centro en la BD con los nuevos datos.
   try {
     const query = `SELECT update_centro($1, $2, $3, $4, $5, $6, $7, $8, $9);`;

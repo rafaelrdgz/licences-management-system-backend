@@ -91,8 +91,8 @@ router.get("/exams/check/:id/", async (req, res) => {
     const result = await pool.query("SELECT * FROM examenes_aprobados($1, $2)", [
       id, new Date()
     ]);
-    console.log(result)
-    if (result.rows[0] > 0) {
+    console.log(result.rows[0].examenes_aprobados)
+    if (result.rows[0].examenes_aprobados === true) {
       res.status(200).json({exists: true});
     } else {
       res.status(404).json({exists: false});
