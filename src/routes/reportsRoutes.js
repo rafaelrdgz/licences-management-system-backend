@@ -1,8 +1,9 @@
 import { Router } from "express";
 import pool from "../DB_config.js";
+import { verifyToken } from "../jwt-middleware.js";
 
 const router = Router();
-
+router.use(verifyToken);
 router.get("/driver_report/:driverId", async (req, res) => {
   try {
     const driverId = req.params.driverId;

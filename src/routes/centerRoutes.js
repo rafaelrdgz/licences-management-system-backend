@@ -1,13 +1,14 @@
-import { response, Router } from "express";
+import { Router } from "express";
 import pool from "../DB_config.js";
 import multer from "multer";
-import * as fs from "node:fs";
-import * as path from "node:path";
+
+import { verifyToken } from "../jwt-middleware.js";
 
 const router = Router();
 
 const storage = multer.memoryStorage(); // Almacenar en memoria para que se procese fácilmente como Buffer
 const upload = multer({ storage });
+router.use(verifyToken);
 
 router.get("/center", async (req, res) => {
   try {

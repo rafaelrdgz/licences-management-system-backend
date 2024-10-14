@@ -1,7 +1,9 @@
 import { Router } from "express";
 import pool from "../DB_config.js";
+import { verifyToken } from "../jwt-middleware.js";
 
 const router = Router();
+router.use(verifyToken);
 
 router.get('/dashboard/licenses/by_type', async (req, res) => {
   try {

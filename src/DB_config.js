@@ -13,5 +13,4 @@ const pool = new Pool({
   database: process.env.DB_NAME,
 });
 
-console.log(pool)
 export default pool;

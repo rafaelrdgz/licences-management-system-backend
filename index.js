@@ -14,12 +14,14 @@ import logo from "./src/routes/logoRoutes.js";
 import reports from "./src/routes/reportsRoutes.js";
 import workers from "./src/routes/workersRoutes.js";
 import dashboard from "./src/routes/dashboardRoutes.js";
+import auth from "./src/routes/authRoutes.js";
 
 const app = express();
 
 app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
+app.use(auth);
 app.use(routes);
 app.use(entities);
 app.use(clients);

@@ -1,9 +1,10 @@
 import {Router} from "express";
 import pool from "../DB_config.js";
 import {v4} from "uuid";
+import { verifyToken } from "../jwt-middleware.js";
 
 const router = Router();
-
+router.use(verifyToken);
 // CREATE
 router.post("/infractions", async (req, res) => {
   try {

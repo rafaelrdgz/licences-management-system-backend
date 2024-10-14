@@ -1,8 +1,9 @@
 import {Router} from "express";
 import pool from "../DB_config.js";
+import { verifyToken } from "../jwt-middleware.js";
 
 const router = Router();
-
+router.use(verifyToken);
 // CREATE
 router.post("/workers", async (req, res) => {
   try {
@@ -24,21 +25,6 @@ router.get("/workers", async (req, res) => {
   try {
     const result = await pool.query("SELECT * FROM get_trabajadores()");
     res.status(200).json(result.rows);
-  } catch (err) {
-    res.status(400).json({error: err.message});
-  }
-});
-
-router.get("/login", async (req, res) => {
-  try {
-    const result = await pool.query("SELECT * FROM login_trabajador($1, $2)", [
-      req.query.email, req.query.password
-    ]);
-    if (result.rows.length > 0) {
-      res.status(200).json(result.rows[0]);
-    } else {
-      res.status(404).json({error: "Worker not found"});
-    }
   } catch (err) {
     res.status(400).json({error: err.message});
   }
