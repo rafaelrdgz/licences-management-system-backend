@@ -5,8 +5,10 @@ import transporter from "../utils/emailTransporter.js";
 import {
   driverReport,
   examsPerformedReport,
+  expiredLicensesReport,
   infractionsByTypeReport,
   issuedLicensesReport,
+  registeredInfractionsReport,
 } from "../utils/createPdf.js";
 
 const router = Router();
@@ -204,7 +206,7 @@ router.post("/infractions_report_pdf", verifyToken, async (req, res) => {
     const email = req.user.email; // Obtiene el email del payload del token
 
     // Generar el PDF en memoria
-    const doc = examsPerformedReport(info);
+    const doc = registeredInfractionsReport(info);
 
     // Guardar el PDF en un buffer
     const pdfBuffer = Buffer.from(doc.output("arraybuffer")); // Convertir ArrayBuffer a Buffer
@@ -262,7 +264,7 @@ router.post("/expired_licenses_report_pdf", verifyToken, async (req, res) => {
     const email = req.user.email; // Obtiene el email del payload del token
 
     // Generar el PDF en memoria
-    const doc = examsPerformedReport(info);
+    const doc = expiredLicensesReport(info);
 
     // Guardar el PDF en un buffer
     const pdfBuffer = Buffer.from(doc.output("arraybuffer")); // Convertir ArrayBuffer a Buffer

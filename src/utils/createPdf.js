@@ -379,7 +379,7 @@ export const expiredLicensesReport = (info) => {
     ]);
 
     // Generación de la tabla con autoTable
-    doc.autotable({
+    doc.autoTable({
       head: [
         [
           "Código de licencia",
