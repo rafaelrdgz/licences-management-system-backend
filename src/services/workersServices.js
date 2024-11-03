@@ -1,9 +1,13 @@
 import pool from "../configs/dbConfig.js";
+import bcrypt from "bcryptjs";
+
+const saltRounds = 10;
 
 const createWorker = async (id, name, lastNames, email, password, role) => {
+  const hashedPassword = await bcrypt.hash(password, saltRounds);
   const result = await pool.query(
     "SELECT * FROM insert_trabajador($1, $2, $3, $4, $5, $6)",
-    [id, name, lastNames, email, password, role]
+    [id, name, lastNames, email, hashedPassword, role]
   );
   return result;
 };
@@ -21,9 +25,10 @@ const getWorkerByID = async (id) => {
 };
 
 const updateWorker = async (id, name, lastNames, email, password, role) => {
+  const hashedPassword = await bcrypt.hash(password, saltRounds);
   const result = await pool.query(
     "SELECT * FROM update_trabajador($1, $2, $3, $4, $5, $6)",
-    [id, name, lastNames, email, password, role]
+    [id, name, lastNames, email, hashedPassword, role]
   );
   return result;
 };
