@@ -2,7 +2,7 @@ import { v4 } from "uuid";
 import transporter from "../configs/emailTransporterConfig.js";
 import EntitiesServices from "../services/entitiesServices.js";
 import { entityReport } from "../utils/createPdf.js";
-import validateController from '../utils/validations/validateController';
+import validateController from '../utils/validations/validateController.js';
 
 export const createEntity = async (req, res) => {
   try {

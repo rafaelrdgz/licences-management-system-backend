@@ -1,12 +1,12 @@
-import passwordValidation from './passwordValidation';
-import emailValidation from './emailValidation';
-import pointsValidation from './pointsValidation';
-import phoneValidation from './phoneValidation';
-import personIdValidation from './personIdValidation';
-import nameValidation from './nameValidation';
-import licenseValidation from './licenseValidation';
-import entityCodeValidation from './entityCodeValidation';
-import addressValidation from './addressValidation';
+import passwordValidation from './passwordValidation.js';
+import emailValidation from './emailValidation.js';
+import pointsValidation from './pointsValidation.js';
+import phoneValidation from './phoneValidation.js';
+import personIdValidation from './personIdValidation.js';
+import nameValidation from './nameValidation.js';
+import licenseValidation from './licenseValidation.js';
+import entityCodeValidation from './entityCodeValidation.js';
+import addressValidation from './addressValidation.js';
 
 const validateController = async (type, value) => {
   let validationFunction;

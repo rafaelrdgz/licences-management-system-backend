@@ -1,4 +1,4 @@
-const yup = require('yup');
+import * as yup from 'yup';
 
 const addressValidation = async (address) => {
   const schema = yup.string()
@@ -14,4 +14,4 @@ const addressValidation = async (address) => {
   }
 };
 
-module.exports = addressValidation;
+export default addressValidation;
